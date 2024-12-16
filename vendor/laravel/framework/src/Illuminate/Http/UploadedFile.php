@@ -56,7 +56,7 @@ class UploadedFile extends SymfonyUploadedFile
      * Store the uploaded file on a filesystem disk with public visibility.
      *
      * @param  string  $path
-     * @param  array|string|null  $name
+     * @param  string  $name
      * @param  array|string  $options
      * @return string|false
      */
@@ -65,7 +65,7 @@ class UploadedFile extends SymfonyUploadedFile
         if (is_null($name) || is_array($name)) {
             [$path, $name, $options] = ['', $path, $name ?? []];
         }
-
+        
         $options = $this->parseOptions($options);
 
         $options['visibility'] = 'public';
@@ -90,7 +90,7 @@ class UploadedFile extends SymfonyUploadedFile
         $options = $this->parseOptions($options);
 
         $disk = Arr::pull($options, 'disk');
-
+        
         return Container::getInstance()->make(FilesystemFactory::class)->disk($disk)->putFileAs(
             $path, $this, $name, $options
         );

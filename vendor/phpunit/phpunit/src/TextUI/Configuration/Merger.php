@@ -10,7 +10,6 @@
 namespace PHPUnit\TextUI\Configuration;
 
 use const DIRECTORY_SEPARATOR;
-use const PATH_SEPARATOR;
 use function array_diff;
 use function assert;
 use function dirname;
@@ -32,8 +31,6 @@ use SebastianBergmann\Environment\Console;
 use SebastianBergmann\Invoker\Invoker;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final readonly class Merger
@@ -105,12 +102,6 @@ final readonly class Merger
             $failOnDeprecation = $cliConfiguration->failOnDeprecation();
         } else {
             $failOnDeprecation = $xmlConfiguration->phpunit()->failOnDeprecation();
-        }
-
-        if ($cliConfiguration->hasFailOnPhpunitDeprecation()) {
-            $failOnPhpunitDeprecation = $cliConfiguration->failOnPhpunitDeprecation();
-        } else {
-            $failOnPhpunitDeprecation = $xmlConfiguration->phpunit()->failOnPhpunitDeprecation();
         }
 
         if ($cliConfiguration->hasFailOnEmptyTestSuite()) {
@@ -242,15 +233,6 @@ final readonly class Merger
         }
 
         $extensionBootstrappers = [];
-
-        if ($cliConfiguration->hasExtensions()) {
-            foreach ($cliConfiguration->extensions() as $extension) {
-                $extensionBootstrappers[] = [
-                    'className'  => $extension,
-                    'parameters' => [],
-                ];
-            }
-        }
 
         foreach ($xmlConfiguration->extensions() as $extension) {
             $extensionBootstrappers[] = [
@@ -453,12 +435,6 @@ final readonly class Merger
             $displayDetailsOnTestsThatTriggerDeprecations = $xmlConfiguration->phpunit()->displayDetailsOnTestsThatTriggerDeprecations();
         }
 
-        if ($cliConfiguration->hasDisplayDetailsOnPhpunitDeprecations()) {
-            $displayDetailsOnPhpunitDeprecations = $cliConfiguration->displayDetailsOnPhpunitDeprecations();
-        } else {
-            $displayDetailsOnPhpunitDeprecations = $xmlConfiguration->phpunit()->displayDetailsOnPhpunitDeprecations();
-        }
-
         if ($cliConfiguration->hasDisplayDetailsOnTestsThatTriggerErrors()) {
             $displayDetailsOnTestsThatTriggerErrors = $cliConfiguration->displayDetailsOnTestsThatTriggerErrors();
         } else {
@@ -576,12 +552,6 @@ final readonly class Merger
             $testDoxOutput = true;
         } else {
             $testDoxOutput = $xmlConfiguration->phpunit()->testdoxPrinter();
-        }
-
-        if ($cliConfiguration->hasTestDoxPrinterSummary() && $cliConfiguration->testdoxPrinterSummary()) {
-            $testDoxOutputSummary = true;
-        } else {
-            $testDoxOutputSummary = $xmlConfiguration->phpunit()->testdoxPrinterSummary();
         }
 
         $noProgress = false;
@@ -737,30 +707,6 @@ final readonly class Merger
         assert($useBaseline !== '');
         assert($generateBaseline !== '');
 
-        if ($failOnDeprecation) {
-            $displayDetailsOnTestsThatTriggerDeprecations = true;
-        }
-
-        if ($failOnPhpunitDeprecation) {
-            $displayDetailsOnPhpunitDeprecations = true;
-        }
-
-        if ($failOnNotice) {
-            $displayDetailsOnTestsThatTriggerNotices = true;
-        }
-
-        if ($failOnWarning) {
-            $displayDetailsOnTestsThatTriggerWarnings = true;
-        }
-
-        if ($failOnIncomplete) {
-            $displayDetailsOnIncompleteTests = true;
-        }
-
-        if ($failOnSkipped) {
-            $displayDetailsOnSkippedTests = true;
-        }
-
         return new Configuration(
             $cliConfiguration->arguments(),
             $configurationFile,
@@ -813,7 +759,6 @@ final readonly class Merger
             $xmlConfiguration->codeCoverage()->ignoreDeprecatedCodeUnits(),
             $disableCodeCoverageIgnore,
             $failOnDeprecation,
-            $failOnPhpunitDeprecation,
             $failOnEmptyTestSuite,
             $failOnIncomplete,
             $failOnNotice,
@@ -850,7 +795,6 @@ final readonly class Merger
             $displayDetailsOnIncompleteTests,
             $displayDetailsOnSkippedTests,
             $displayDetailsOnTestsThatTriggerDeprecations,
-            $displayDetailsOnPhpunitDeprecations,
             $displayDetailsOnTestsThatTriggerErrors,
             $displayDetailsOnTestsThatTriggerNotices,
             $displayDetailsOnTestsThatTriggerWarnings,
@@ -870,7 +814,6 @@ final readonly class Merger
             $logEventsVerboseText,
             $teamCityOutput,
             $testDoxOutput,
-            $testDoxOutputSummary,
             $testsCovering,
             $testsUsing,
             $filter,
@@ -901,7 +844,6 @@ final readonly class Merger
             $xmlConfiguration->phpunit()->numberOfTestsBeforeGarbageCollection(),
             $generateBaseline,
             $cliConfiguration->debug(),
-            $xmlConfiguration->phpunit()->shortenArraysForExportThreshold(),
         );
     }
 }

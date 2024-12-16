@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['title', 'body', 'user_id', 'category_id'];
+    protected $fillable = [ 'body', 'user_id', 'image' ];    
     
-    public function user(): BelongsTo {
-        return $this->belongsTo(Post::class);
-    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag');
+    }    
     
-    public function category(): BelongsTo {
-        return $this->belongsTo(Post::class);
+    // Post belongs to a User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

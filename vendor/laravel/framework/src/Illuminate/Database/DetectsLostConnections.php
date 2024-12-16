@@ -76,9 +76,6 @@ trait DetectsLostConnections
             'No such file or directory',
             'server is shutting down',
             'failed to connect to',
-            'Channel connection is closed',
-            'Connection lost',
-            'Broken pipe',
         ]);
     }
 }

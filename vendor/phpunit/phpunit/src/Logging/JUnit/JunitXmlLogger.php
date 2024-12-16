@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Logging\JUnit;
 
-use const PHP_EOL;
 use function assert;
 use function basename;
 use function is_int;
@@ -38,8 +37,6 @@ use PHPUnit\TextUI\Output\Printer;
 use PHPUnit\Util\Xml;
 
 /**
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
- *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class JunitXmlLogger
@@ -54,32 +51,32 @@ final class JunitXmlLogger
     private array $testSuites = [];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteTests = [0];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteAssertions = [0];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteErrors = [0];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteFailures = [0];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteSkipped = [0];
 
     /**
-     * @var array<int,int>
+     * @psalm-var array<int,int>
      */
     private array $testSuiteTimes        = [0];
     private int $testSuiteLevel          = 0;
@@ -309,7 +306,6 @@ final class JunitXmlLogger
         $this->document->formatOutput = true;
 
         $this->root = $this->document->createElement('testsuites');
-        $this->root->setAttribute('name', 'PHPUnit tests');
         $this->document->appendChild($this->root);
     }
 
@@ -422,7 +418,7 @@ final class JunitXmlLogger
     /**
      * @throws InvalidArgumentException
      *
-     * @phpstan-assert !null $this->currentTestCase
+     * @psalm-assert !null $this->currentTestCase
      */
     private function createTestCase(Errored|Failed|MarkedIncomplete|PreparationStarted|Prepared|Skipped $event): void
     {
